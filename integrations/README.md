@@ -17,6 +17,7 @@ supported agentic coding tools.
 - **[Kimi Code](#kimi-code)** — YAML agent specs in `kimi/`
 - **[Qwen Code](#qwen-code)** — project-scoped `.md` SubAgents in `.qwen/agents/`
 - **[Codex](#codex)** — `.toml` custom agents in `codex/`
+- **[Accio Work](#accio-work)** — draft account-scoped agent bundles in `accio-work/`
 
 ## Quick Install
 
@@ -57,6 +58,12 @@ If you add or modify agents, regenerate all integration files:
 
 ```bash
 ./scripts/convert.sh
+```
+
+For Accio Work conversion only:
+
+```bash
+./scripts/convert.sh --tool accio-work
 ```
 
 ---
@@ -240,6 +247,30 @@ cd /your/project && /path/to/agency-agents/scripts/install.sh --tool qwen
 ```
 
 See [qwen/README.md](qwen/README.md) for details.
+
+---
+
+## Accio Work
+
+Each Agency agent becomes a draft Accio Work agent bundle containing
+`profile.template.jsonc` plus an `agent-core/` directory.
+
+```bash
+./scripts/convert.sh --tool accio-work
+```
+
+Generated files are written to:
+
+```text
+integrations/accio-work/agents/<agent-slug>/
+```
+
+This integration does **not** install into `~/.accio/accounts/...` yet. Accio
+Work stores agents inside account-scoped directories with profile, permissions,
+runtime, and index state, so installation needs a dedicated account-aware
+installer.
+
+See [accio-work/README.md](accio-work/README.md) for details.
 
 ---
 

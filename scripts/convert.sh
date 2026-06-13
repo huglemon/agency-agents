@@ -20,6 +20,7 @@
 #   qwen         — Qwen Code SubAgent files (~/.qwen/agents/*.md)
 #   kimi         — Kimi Code CLI agent files (~/.config/kimi/agents/)
 #   codex        — Codex custom agent TOML files (~/.codex/agents/*.toml)
+#   accio-work   — Accio Work agent bundle drafts (conversion only; no install)
 #   all          — All tools (default)
 #
 # Output is written to integrations/<tool>/ relative to the repo root.
@@ -90,6 +91,19 @@ parallel_jobs_default() {
 # Escape a value for a TOML basic string, including control characters that
 # cannot appear raw in TOML source.
 toml_escape_string() {
+  printf '%s' "$1" | perl -0pe '
+    s/\\/\\\\/g;
+    s/"/\\"/g;
+    s/\n/\\n/g;
+    s/\r/\\r/g;
+    s/\t/\\t/g;
+    s/\f/\\f/g;
+    s/\x08/\\b/g;
+    s/([\x00-\x07\x0B\x0E-\x1F\x7F])/sprintf("\\u%04X", ord($1))/ge;
+  '
+}
+
+json_escape_string() {
   printf '%s' "$1" | perl -0pe '
     s/\\/\\\\/g;
     s/"/\\"/g;
@@ -428,6 +442,248 @@ ${body}
 HEREDOC
 }
 
+convert_accio_work() {
+  local file="$1"
+  local name description slug outdir core body relfile emoji vibe
+  local soul_content="" agents_content=""
+  local json_name json_description json_slug json_relfile
+
+  name="$(get_field "name" "$file")"
+  description="$(get_field "description" "$file")"
+  slug="$(slugify "$name")"
+  body="$(get_body "$file")"
+  relfile="${file#$REPO_ROOT/}"
+  emoji="$(get_field "emoji" "$file")"
+  vibe="$(get_field "vibe" "$file")"
+
+  json_name="$(json_escape_string "$name")"
+  json_description="$(json_escape_string "$description")"
+  json_slug="$(json_escape_string "$slug")"
+  json_relfile="$(json_escape_string "$relfile")"
+
+  outdir="$OUT_DIR/accio-work/agents/$slug"
+  core="$outdir/agent-core"
+  mkdir -p "$core"
+
+  local current_target="agents"
+  local current_section=""
+
+  while IFS= read -r line; do
+    if [[ "$line" =~ ^##[[:space:]] ]]; then
+      if [[ -n "$current_section" ]]; then
+        if [[ "$current_target" == "soul" ]]; then
+          soul_content+="$current_section"
+        else
+          agents_content+="$current_section"
+        fi
+      fi
+      current_section=""
+
+      local header_lower
+      header_lower="$(echo "$line" | tr '[:upper:]' '[:lower:]')"
+
+      if [[ "$header_lower" =~ identity ]] ||
+         [[ "$header_lower" =~ learning.*memory ]] ||
+         [[ "$header_lower" =~ communication ]] ||
+         [[ "$header_lower" =~ style ]] ||
+         [[ "$header_lower" =~ critical.rule ]] ||
+         [[ "$header_lower" =~ rules.you.must.follow ]]; then
+        current_target="soul"
+      else
+        current_target="agents"
+      fi
+    fi
+
+    current_section+="$line"$'\n'
+  done <<< "$body"
+
+  if [[ -n "$current_section" ]]; then
+    if [[ "$current_target" == "soul" ]]; then
+      soul_content+="$current_section"
+    else
+      agents_content+="$current_section"
+    fi
+  fi
+
+  cat > "$outdir/manifest.json" <<HEREDOC
+{
+  "format": "accio-work-agent-bundle",
+  "schemaVersion": 1,
+  "conversionOnly": true,
+  "source": {
+    "repository": "agency-agents",
+    "path": "$json_relfile",
+    "name": "$json_name",
+    "description": "$json_description",
+    "slug": "$json_slug"
+  },
+  "generatedFiles": [
+    "profile.template.jsonc",
+    "agent-core/agent.json",
+    "agent-core/AGENTS.md",
+    "agent-core/SOUL.md",
+    "agent-core/IDENTITY.md",
+    "agent-core/BOOTSTRAP.md",
+    "agent-core/MEMORY.md",
+    "agent-core/USER.md",
+    "agent-core/TOOLS.md",
+    "agent-core/tool-registry.jsonc"
+  ],
+  "installStatus": "not-installed",
+  "installNotes": [
+    "This bundle is a draft Accio Work agent-core layout.",
+    "Do not copy it blindly into ~/.accio/accounts.",
+    "A real installer must choose the target account, generate an agent id, fill profile.template.jsonc, create permissions/runtime metadata, and refresh any Accio Work indexes."
+  ]
+}
+HEREDOC
+
+  cat > "$outdir/profile.template.jsonc" <<HEREDOC
+{
+  // Accio Work account-scoped profile template.
+  // Fill these values only inside a real installer that knows the target account.
+  "id": "<generated-agent-id>",
+  "accountId": "<target-account-id>",
+  "name": "$json_name",
+  "description": "$json_description",
+  "model": {
+    "provider": "auto",
+    "name": "auto"
+  },
+  "runtime": "local",
+  "toolPreset": "standard",
+  "creator": "user",
+  "agentType": "agency-agent",
+  "localMemoryIndex": true,
+  "presetSource": "agency-agents-converted",
+  "subAgents": {
+    "enabled": []
+  }
+}
+HEREDOC
+
+  cat > "$core/agent.json" <<HEREDOC
+{
+  "id": "$json_slug",
+  "version": "0.0.1",
+  "name": "$json_name",
+  "description": "$json_description",
+  "agentType": "agency-agent",
+  "avatar": "",
+  "model": {
+    "provider": "auto",
+    "name": "auto"
+  },
+  "toolPreset": "standard",
+  "templateId": "agency-agents/$json_slug",
+  "skillIds": [],
+  "catalogSkillIds": [],
+  "cliToolIds": [],
+  "subAgents": {
+    "enabled": []
+  },
+  "policyRules": [],
+  "hiddenCoreFiles": []
+}
+HEREDOC
+
+  cat > "$core/IDENTITY.md" <<HEREDOC
+# Identity
+
+- **Name**: ${name}
+- **Source**: \`${relfile}\`
+- **Agency Slug**: \`${slug}\`
+
+## Role
+
+${description}
+HEREDOC
+
+  if [[ -n "$emoji" || -n "$vibe" ]]; then
+    cat >> "$core/IDENTITY.md" <<HEREDOC
+
+## Source Personality
+
+- **Emoji**: ${emoji:-N/A}
+- **Vibe**: ${vibe:-N/A}
+HEREDOC
+  fi
+
+  cat > "$core/SOUL.md" <<HEREDOC
+# Soul
+
+You are ${name}.
+
+${description}
+
+${soul_content}
+HEREDOC
+
+  cat > "$core/AGENTS.md" <<HEREDOC
+# Agent Instructions
+
+This Accio Work bundle was converted from The Agency source agent:
+
+- Source file: \`${relfile}\`
+- Source agent: **${name}**
+
+${agents_content}
+HEREDOC
+
+  cat > "$core/BOOTSTRAP.md" <<HEREDOC
+# Bootstrap Instructions
+
+## Session Startup
+
+1. Read USER.md to understand who you are serving.
+2. Read IDENTITY.md to understand your role.
+3. Read SOUL.md for persona, tone, and boundaries.
+4. Read AGENTS.md for operating instructions and deliverable expectations.
+5. Read TOOLS.md for runtime-injected tool availability.
+
+If the user's request is ambiguous, make a reasonable assumption and state it briefly before proceeding.
+HEREDOC
+
+  : > "$core/MEMORY.md"
+
+  cat > "$core/USER.md" <<'HEREDOC'
+# User Information
+
+## Preferences
+
+- Communication: Match the user's language and level of detail.
+
+## Context
+
+This file is intentionally minimal in converted bundles. Accio Work may inject
+account-specific user profile or connected-account context during installation
+or session startup.
+HEREDOC
+
+  cat > "$core/TOOLS.md" <<'HEREDOC'
+# Available Tools
+
+<!-- Accio Work can inject the live tool list from tool-registry.jsonc at runtime. -->
+<!-- Do not treat this generated file as proof that a tool is available. -->
+
+<!-- TOOL_LIST -->
+HEREDOC
+
+  cat > "$core/tool-registry.jsonc" <<'HEREDOC'
+{
+  // Accio Work tool registry draft.
+  // "standard" is intentionally conservative for converted Agency agents.
+  // A future installer can upgrade this to "developer" or "full" per agent.
+  "version": 1,
+  "preset": "standard",
+  "builtin": {"include": [], "exclude": []},
+  "mcp": [],
+  "conditional": [],
+  "notes": ""
+}
+HEREDOC
+}
+
 # Aider and Windsurf are single-file formats — accumulate into temp files
 # then write at the end.
 AIDER_TMP="$(mktemp)"
@@ -527,6 +783,7 @@ run_conversions() {
         openclaw)    convert_openclaw    "$file" ;;
         qwen)        convert_qwen        "$file" ;;
         kimi)        convert_kimi        "$file" ;;
+        accio-work)  convert_accio_work  "$file" ;;
         aider)       accumulate_aider    "$file" ;;
         windsurf)    accumulate_windsurf "$file" ;;
       esac
@@ -557,7 +814,7 @@ main() {
     esac
   done
 
-  local valid_tools=("antigravity" "gemini-cli" "opencode" "cursor" "aider" "windsurf" "openclaw" "qwen" "kimi" "codex" "all")
+  local valid_tools=("antigravity" "gemini-cli" "opencode" "cursor" "aider" "windsurf" "openclaw" "qwen" "kimi" "codex" "accio-work" "all")
   local valid=false
   for t in "${valid_tools[@]}"; do [[ "$t" == "$tool" ]] && valid=true && break; done
   if ! $valid; then
@@ -576,7 +833,7 @@ main() {
 
   local tools_to_run=()
   if [[ "$tool" == "all" ]]; then
-    tools_to_run=("antigravity" "gemini-cli" "opencode" "cursor" "aider" "windsurf" "openclaw" "qwen" "kimi" "codex")
+    tools_to_run=("antigravity" "gemini-cli" "opencode" "cursor" "aider" "windsurf" "openclaw" "qwen" "kimi" "codex" "accio-work")
   else
     tools_to_run=("$tool")
   fi
@@ -587,7 +844,7 @@ main() {
 
   if $use_parallel && [[ "$tool" == "all" ]]; then
     # Tools that write to separate dirs can run in parallel; buffer output so each tool's output stays together
-    local parallel_tools=(antigravity gemini-cli opencode cursor openclaw qwen codex)
+    local parallel_tools=(antigravity gemini-cli opencode cursor openclaw qwen kimi codex accio-work)
     local parallel_out_dir
     parallel_out_dir="$(mktemp -d)"
     info "Converting: ${#parallel_tools[@]}/${n_tools} tools in parallel (output buffered per tool)..."
@@ -599,7 +856,7 @@ main() {
       [[ -f "$parallel_out_dir/$t" ]] && cat "$parallel_out_dir/$t"
     done
     rm -rf "$parallel_out_dir"
-    local idx=8
+    local idx=10
     for t in aider windsurf; do
       progress_bar "$idx" "$n_tools"
       printf "\n"

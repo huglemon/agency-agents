@@ -652,6 +652,7 @@ The Agency works natively with Claude Code, and ships conversion + install scrip
 - **[Qwen Code](https://github.com/QwenLM/qwen-code)** — `.md` SubAgent files → `~/.qwen/agents/`
 - **[Kimi Code](https://github.com/MoonshotAI/kimi-cli)** — YAML agent specs → `~/.config/kimi/agents/`
 - **[Codex](https://developers.openai.com/codex/overview)** — TOML custom agents → `~/.codex/agents/`
+- **Accio Work** — draft account-scoped agent bundles → `integrations/accio-work/agents/` (conversion only)
 
 ---
 
@@ -703,6 +704,15 @@ The installer scans your system for installed tools, shows a checkbox UI, and le
 ./scripts/install.sh --tool antigravity
 ./scripts/install.sh --tool codex
 ```
+
+**Accio Work conversion only:**
+```bash
+./scripts/convert.sh --tool accio-work
+```
+
+Accio Work stores agents inside account-scoped `~/.accio/accounts/<account>/`
+directories, so this repo currently generates draft bundles only. It does not
+install into Accio Work accounts yet.
 
 **Non-interactive (CI/scripts):**
 ```bash
