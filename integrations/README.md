@@ -3,6 +3,8 @@
 This directory contains The Agency integrations and converted formats for
 supported agentic coding tools.
 
+如果你是来快速了解当前阶段和接手路线，先看 [docs/README.md](../docs/README.md)。
+
 ## Supported Tools
 
 - **[Claude Code](#claude-code)** — `.md` agents, use the repo directly
@@ -254,6 +256,8 @@ See [qwen/README.md](qwen/README.md) for details.
 
 Each Agency agent becomes a draft Accio Work agent bundle containing
 `profile.template.jsonc` plus an `agent-core/` directory.
+
+当前阶段成果和状态说明见 [docs/current-state.md](../docs/current-state.md)。
 
 ```bash
 ./scripts/convert.sh --tool accio-work

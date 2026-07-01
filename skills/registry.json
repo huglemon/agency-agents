@@ -1,0 +1,212 @@
+{
+  "version": "0.1.0",
+  "locale": "zh-CN",
+  "positioning": "Agent-first skill market for Accio Work B2B foreign-trade workflows.",
+  "rules": {
+    "avoidDuplicateBuiltins": true,
+    "userFacingLanguage": "zh-CN",
+    "firstPhaseDistribution": "embedded-in-agents"
+  },
+  "skills": [
+    {
+      "id": "foreign-trade-product-knowledge-standardizer",
+      "displayName": "外贸产品资料知识库标准化",
+      "phase": "P0",
+      "type": "agent-embedded",
+      "summary": "把独立站、PDF、Excel、图片、目录册和旧详情页整理成 AWB / 国际站可复用产品事实字段。",
+      "avoidsDuplicateOf": ["product-marketing-context", "product-marketing-brief", "copywriting"],
+      "recommendedAgents": ["product-operations-companion", "knowledge-base-steward", "alibaba-listing-optimization"],
+      "folder": "skills/foreign-trade-product-knowledge-standardizer"
+    },
+    {
+      "id": "product-material-gap-diagnosis",
+      "displayName": "产品资料缺口诊断",
+      "phase": "P0",
+      "type": "agent-embedded",
+      "summary": "检查产品资料中缺失的参数、图片、证书、包装、FAQ 和场景信息，防止硬编。",
+      "avoidsDuplicateOf": ["copywriting", "product-description-generator"],
+      "recommendedAgents": ["product-operations-companion", "knowledge-base-steward", "alibaba-listing-optimization"],
+      "folder": "skills/product-material-gap-diagnosis"
+    },
+    {
+      "id": "alibaba-listing-package-generator",
+      "displayName": "阿里国际站产品发布包生成",
+      "phase": "P0",
+      "type": "agent-embedded",
+      "summary": "把产品知识库转成国际站标题、关键词、属性、卖点、详情页结构和发布检查清单。",
+      "avoidsDuplicateOf": ["amazon-listing-expert", "ecommerce-seo-optimizer", "copywriting"],
+      "recommendedAgents": ["alibaba-listing-optimization", "cross-border-e-commerce-specialist"],
+      "folder": "skills/alibaba-listing-package-generator"
+    },
+    {
+      "id": "alibaba-title-keyword-attribute-score",
+      "displayName": "阿里产品标题 / 关键词 / 属性评分",
+      "phase": "P0",
+      "type": "agent-embedded",
+      "summary": "专门评估国际站标题、关键词和属性字段，不做泛 SEO。",
+      "avoidsDuplicateOf": ["seo-page-audit", "seo-keyword-research"],
+      "recommendedAgents": ["alibaba-listing-optimization", "seo-specialist", "search-query-analyst"],
+      "folder": "skills/alibaba-title-keyword-attribute-score"
+    },
+    {
+      "id": "rfq-inquiry-intent-parser",
+      "displayName": "RFQ / 询盘采购意图解析",
+      "phase": "P0",
+      "type": "agent-embedded",
+      "summary": "判断买家阶段、采购真实性、缺失信息、追问问题和线索等级。",
+      "avoidsDuplicateOf": ["cold-email", "sales-enablement"],
+      "recommendedAgents": ["sales-outreach", "discovery-coach", "sales-engineer", "deal-strategist"],
+      "folder": "skills/rfq-inquiry-intent-parser"
+    },
+    {
+      "id": "quotation-package-field-generator",
+      "displayName": "报价包字段生成",
+      "phase": "P0",
+      "type": "agent-embedded",
+      "summary": "把询盘需求整理成报价字段、阶梯价、付款方式、PI 草稿字段和报价风险提示。",
+      "avoidsDuplicateOf": ["docx", "pdf", "pricing-strategy"],
+      "recommendedAgents": ["proposal-strategist", "sales-engineer", "pricing-analyst", "deal-strategist"],
+      "folder": "skills/quotation-package-field-generator"
+    },
+    {
+      "id": "foreign-trade-inquiry-search-term-cleaner",
+      "displayName": "外贸询盘质量搜索词清洗",
+      "phase": "P0",
+      "type": "agent-embedded",
+      "summary": "按真实 B2B 买家意图清洗搜索词，输出高意图词、低质词、否定词和预算浪费点。",
+      "avoidsDuplicateOf": ["paid-ads", "seo-keyword-research", "amazon-ppc-campaign-manager"],
+      "recommendedAgents": ["search-query-analyst", "ppc-campaign-strategist", "paid-media-auditor"],
+      "folder": "skills/foreign-trade-inquiry-search-term-cleaner"
+    },
+    {
+      "id": "boss-facing-business-summary-compressor",
+      "displayName": "老板版经营结论压缩",
+      "phase": "P0",
+      "type": "agent-embedded",
+      "summary": "把运营数据和执行记录压缩成工厂老板能决策的结果、问题、机会、风险和下月动作。",
+      "avoidsDuplicateOf": ["internal-comms", "doc-coauthoring"],
+      "recommendedAgents": ["account-strategist", "analytics-reporter", "executive-summary-generator", "business-strategist"],
+      "folder": "skills/boss-facing-business-summary-compressor"
+    },
+    {
+      "id": "independent-site-to-alibaba-knowledge-migration",
+      "displayName": "独立站资料 -> 国际站知识库迁移",
+      "phase": "P1",
+      "type": "agent-embedded",
+      "summary": "把独立站页面、FAQ、案例和询盘记录迁移为 AWB / 国际站可用知识库。",
+      "avoidsDuplicateOf": ["seo-audit", "content-strategy"],
+      "recommendedAgents": ["knowledge-base-steward", "product-operations-companion", "alibaba-listing-optimization"],
+      "folder": "skills/independent-site-to-alibaba-knowledge-migration"
+    },
+    {
+      "id": "alibaba-competitor-listing-field-breakdown",
+      "displayName": "阿里竞品产品页字段拆解",
+      "phase": "P1",
+      "type": "agent-embedded",
+      "summary": "拆解国际站竞品产品页的标题、关键词、属性、MOQ、主图、详情页模块和信任背书。",
+      "avoidsDuplicateOf": ["competitor-deep-analysis", "competitive-landscape", "seo-competitor-analysis"],
+      "recommendedAgents": ["alibaba-listing-optimization", "cross-border-e-commerce-specialist", "seo-specialist"],
+      "folder": "skills/alibaba-competitor-listing-field-breakdown"
+    },
+    {
+      "id": "alibaba-operation-monthly-report-structure",
+      "displayName": "国际站经营月报结构化",
+      "phase": "P1",
+      "type": "agent-embedded",
+      "summary": "把国际站产品、曝光、点击、询盘、RFQ、P4P 和发布动作整理成月报骨架。",
+      "avoidsDuplicateOf": ["xlsx", "pptx", "internal-comms"],
+      "recommendedAgents": ["analytics-reporter", "account-strategist", "executive-summary-generator"],
+      "folder": "skills/alibaba-operation-monthly-report-structure"
+    },
+    {
+      "id": "alibaba-7-14-30-launch-retrospective",
+      "displayName": "7/14/30 国际站快启动复盘",
+      "phase": "P1",
+      "type": "agent-embedded",
+      "summary": "按 7 天资料、14 天发布测试、30 天反馈验证节奏复盘国际站快启动。",
+      "avoidsDuplicateOf": ["project-management", "internal-comms"],
+      "recommendedAgents": ["business-strategist", "account-strategist", "project-shepherd", "executive-summary-generator"],
+      "folder": "skills/alibaba-7-14-30-launch-retrospective"
+    },
+    {
+      "id": "b2b-foreign-trade-copywriting-pro",
+      "displayName": "B2B 外贸英文文案 Pro",
+      "phase": "P2",
+      "type": "pro-version",
+      "summary": "官方文案能力的外贸增强版，聚焦采购商可信表达、术语一致、夸大声明检查和可发布文本。",
+      "inspiredBy": ["https://soku.ai/skills/copywriting", "https://soku.ai/skills/copy-editing", "https://github.com/op7418/Humanizer-zh"],
+      "recommendedAgents": ["content-creator", "technical-writer", "alibaba-listing-optimization", "sales-outreach"],
+      "folder": "skills/b2b-foreign-trade-copywriting-pro"
+    },
+    {
+      "id": "b2b-seo-geo-pro",
+      "displayName": "B2B SEO / GEO Pro",
+      "phase": "P2",
+      "type": "pro-version",
+      "summary": "官方 SEO 能力的外贸增强版，兼顾 Google SEO、AI 引用、采购意图词和国际站/独立站复用。",
+      "inspiredBy": ["https://soku.ai/skills/ai-seo", "https://soku.ai/skills/search-content-brief", "https://soku.ai/skills/geo-visibility-audit"],
+      "recommendedAgents": ["seo-specialist", "ai-citation-strategist", "aeo-foundations-architect", "agentic-search-optimizer"],
+      "folder": "skills/b2b-seo-geo-pro"
+    },
+    {
+      "id": "foreign-trade-ad-analysis-pro",
+      "displayName": "外贸广告分析 Pro",
+      "phase": "P2",
+      "type": "pro-version",
+      "summary": "官方广告/测量能力的外贸增强版，聚焦 B2B 询盘质量、采购意图和预算浪费。",
+      "inspiredBy": ["https://soku.ai/skills/paid-ads", "https://soku.ai/skills/analytics-tracking"],
+      "recommendedAgents": ["ppc-campaign-strategist", "search-query-analyst", "paid-media-auditor", "account-strategist"],
+      "folder": "skills/foreign-trade-ad-analysis-pro"
+    },
+    {
+      "id": "foreign-trade-product-visual-pack-pro",
+      "displayName": "外贸产品图素材 Pro",
+      "phase": "P2",
+      "type": "pro-version",
+      "summary": "图片能力的外贸增强版，输出白底图、尺寸图、场景图、包装图、工厂实力图和详情页卖点图清单。",
+      "inspiredBy": ["https://github.com/op7418/guizang-social-card-skill", "https://github.com/op7418/guizang-ppt-skill"],
+      "recommendedAgents": ["image-prompt-engineer", "visual-storyteller", "alibaba-listing-optimization", "product-operations-companion"],
+      "folder": "skills/foreign-trade-product-visual-pack-pro"
+    },
+    {
+      "id": "foreign-trade-report-pro",
+      "displayName": "外贸报告 Pro",
+      "phase": "P2",
+      "type": "pro-version",
+      "summary": "官方文档/表格/PPT 能力的外贸增强版，面向老板汇报、客户月报、国际站复盘和广告报告。",
+      "inspiredBy": ["https://soku.ai/skills/sales-enablement", "https://soku.ai/skills/revops", "https://github.com/op7418/guizang-ppt-skill"],
+      "recommendedAgents": ["executive-summary-generator", "analytics-reporter", "account-strategist", "business-strategist"],
+      "folder": "skills/foreign-trade-report-pro"
+    },
+    {
+      "id": "foreign-trade-competitor-research-pro",
+      "displayName": "外贸竞品研究 Pro",
+      "phase": "P2",
+      "type": "pro-version",
+      "summary": "官方竞品研究能力的外贸增强版，聚焦国际站 Listing、独立站产品页、MOQ、认证、图片结构和询盘入口。",
+      "inspiredBy": ["https://soku.ai/skills/competitive-battlecard", "https://soku.ai/skills/competitor-alternatives"],
+      "recommendedAgents": ["cross-border-e-commerce-specialist", "alibaba-listing-optimization", "seo-specialist", "content-creator"],
+      "folder": "skills/foreign-trade-competitor-research-pro"
+    },
+    {
+      "id": "foreign-trade-spreadsheet-data-pro",
+      "displayName": "外贸表格数据 Pro",
+      "phase": "P2",
+      "type": "pro-version",
+      "summary": "官方表格能力的外贸增强版，专门处理产品发布表、询盘表、报价表、成交表和广告搜索词表。",
+      "inspiredBy": ["https://soku.ai/skills/cohort-analysis", "https://soku.ai/skills/revops"],
+      "recommendedAgents": ["analytics-reporter", "pipeline-analyst", "account-strategist", "data-consolidation-agent"],
+      "folder": "skills/foreign-trade-spreadsheet-data-pro"
+    },
+    {
+      "id": "foreign-trade-image-localization-pro",
+      "displayName": "外贸图片翻译 / 本地化 Pro",
+      "phase": "P2",
+      "type": "pro-version",
+      "summary": "图片翻译能力的外贸增强版，适配国际站卖点图、独立站 Banner、包装图、社媒广告图和展会海报。",
+      "inspiredBy": ["https://github.com/op7418/guizang-social-card-skill", "https://github.com/op7418/Humanizer-zh"],
+      "recommendedAgents": ["visual-storyteller", "content-creator", "alibaba-listing-optimization"],
+      "folder": "skills/foreign-trade-image-localization-pro"
+    }
+  ]
+}

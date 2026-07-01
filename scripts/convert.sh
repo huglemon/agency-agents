@@ -684,6 +684,24 @@ HEREDOC
 HEREDOC
 }
 
+copy_accio_work_skill_market() {
+  if [[ -f "$REPO_ROOT/scripts/export-accio-work-skill-market.mjs" ]]; then
+    node "$REPO_ROOT/scripts/export-accio-work-skill-market.mjs"
+    return
+  fi
+
+  local market_dir="$OUT_DIR/accio-work/skill-market"
+  mkdir -p "$market_dir"
+
+  if [[ -f "$REPO_ROOT/skills/registry.json" ]]; then
+    cp "$REPO_ROOT/skills/registry.json" "$market_dir/skills-registry.json"
+  fi
+
+  if [[ -f "$REPO_ROOT/agent-skill-packs/accio-work-b2b-foreign-trade.json" ]]; then
+    cp "$REPO_ROOT/agent-skill-packs/accio-work-b2b-foreign-trade.json" "$market_dir/agent-skill-packs.json"
+  fi
+}
+
 # Aider and Windsurf are single-file formats — accumulate into temp files
 # then write at the end.
 AIDER_TMP="$(mktemp)"
@@ -891,6 +909,10 @@ main() {
     mkdir -p "$OUT_DIR/windsurf"
     cp "$WINDSURF_TMP" "$OUT_DIR/windsurf/.windsurfrules"
     info "Wrote integrations/windsurf/.windsurfrules"
+  fi
+  if [[ "$tool" == "all" || "$tool" == "accio-work" ]]; then
+    copy_accio_work_skill_market
+    info "Wrote integrations/accio-work/skill-market/"
   fi
 
   echo ""

@@ -1,0 +1,119 @@
+{
+  "version": "0.1.0",
+  "locale": "zh-CN",
+  "purpose": "Declare which B2B foreign-trade skills should be installed together with Accio Work agents.",
+  "packs": [
+    {
+      "agentSlug": "cross-border-e-commerce-specialist",
+      "sourcePath": "marketing/marketing-cross-border-ecommerce.md",
+      "displayName": "跨境外贸运营顾问",
+      "requiredSkills": ["foreign-trade-product-knowledge-standardizer", "alibaba-listing-package-generator"],
+      "optionalSkills": ["alibaba-competitor-listing-field-breakdown", "independent-site-to-alibaba-knowledge-migration"],
+      "recommendedPlugins": ["alibaba-com-seller-assistant", "accio-com-buyer-assistant", "spreadsheets"]
+    },
+    {
+      "agentSlug": "alibaba-listing-optimization",
+      "sourcePath": null,
+      "external": true,
+      "displayName": "阿里国际站产品发布优化师",
+      "requiredSkills": [
+        "foreign-trade-product-knowledge-standardizer",
+        "product-material-gap-diagnosis",
+        "alibaba-listing-package-generator",
+        "alibaba-title-keyword-attribute-score"
+      ],
+      "optionalSkills": ["alibaba-competitor-listing-field-breakdown", "independent-site-to-alibaba-knowledge-migration"],
+      "recommendedPlugins": ["alibaba-com-seller-assistant"]
+    },
+    {
+      "agentSlug": "product-operations-companion",
+      "sourcePath": null,
+      "external": true,
+      "displayName": "外贸产品运营助手",
+      "requiredSkills": ["foreign-trade-product-knowledge-standardizer", "product-material-gap-diagnosis"],
+      "optionalSkills": ["independent-site-to-alibaba-knowledge-migration"],
+      "recommendedPlugins": ["documents", "spreadsheets", "alibaba-com-seller-assistant"]
+    },
+    {
+      "agentSlug": "knowledge-base-steward",
+      "sourcePath": null,
+      "external": true,
+      "displayName": "外贸知识库管家",
+      "requiredSkills": ["foreign-trade-product-knowledge-standardizer", "product-material-gap-diagnosis"],
+      "optionalSkills": ["independent-site-to-alibaba-knowledge-migration"],
+      "recommendedPlugins": ["documents", "spreadsheets"]
+    },
+    {
+      "agentSlug": "sales-outreach",
+      "sourcePath": "specialized/sales-outreach.md",
+      "displayName": "外贸客户开发助手",
+      "requiredSkills": ["rfq-inquiry-intent-parser"],
+      "optionalSkills": ["quotation-package-field-generator"],
+      "recommendedPlugins": ["okki-aireach", "okki-crm", "gmail"]
+    },
+    {
+      "agentSlug": "discovery-coach",
+      "sourcePath": "sales/sales-discovery-coach.md",
+      "displayName": "询盘发现教练",
+      "requiredSkills": ["rfq-inquiry-intent-parser"],
+      "optionalSkills": ["quotation-package-field-generator"],
+      "recommendedPlugins": ["okki-crm"]
+    },
+    {
+      "agentSlug": "proposal-strategist",
+      "sourcePath": "sales/sales-proposal-strategist.md",
+      "displayName": "报价与方案顾问",
+      "requiredSkills": ["quotation-package-field-generator", "rfq-inquiry-intent-parser"],
+      "optionalSkills": [],
+      "recommendedPlugins": ["documents", "spreadsheets"]
+    },
+    {
+      "agentSlug": "sales-engineer",
+      "sourcePath": "sales/sales-engineer.md",
+      "displayName": "外贸售前工程师",
+      "requiredSkills": ["rfq-inquiry-intent-parser", "quotation-package-field-generator"],
+      "optionalSkills": ["foreign-trade-product-knowledge-standardizer"],
+      "recommendedPlugins": ["documents"]
+    },
+    {
+      "agentSlug": "search-query-analyst",
+      "sourcePath": "paid-media/paid-media-search-query-analyst.md",
+      "displayName": "外贸搜索词分析师",
+      "requiredSkills": ["foreign-trade-inquiry-search-term-cleaner"],
+      "optionalSkills": ["alibaba-title-keyword-attribute-score"],
+      "recommendedPlugins": ["spreadsheets"]
+    },
+    {
+      "agentSlug": "ppc-campaign-strategist",
+      "sourcePath": "paid-media/paid-media-ppc-strategist.md",
+      "displayName": "外贸付费推广策略师",
+      "requiredSkills": ["foreign-trade-inquiry-search-term-cleaner"],
+      "optionalSkills": ["boss-facing-business-summary-compressor"],
+      "recommendedPlugins": ["spreadsheets"]
+    },
+    {
+      "agentSlug": "analytics-reporter",
+      "sourcePath": "support/support-analytics-reporter.md",
+      "displayName": "外贸运营数据分析师",
+      "requiredSkills": ["alibaba-operation-monthly-report-structure", "boss-facing-business-summary-compressor"],
+      "optionalSkills": ["alibaba-7-14-30-launch-retrospective"],
+      "recommendedPlugins": ["spreadsheets", "presentations"]
+    },
+    {
+      "agentSlug": "executive-summary-generator",
+      "sourcePath": "support/support-executive-summary-generator.md",
+      "displayName": "老板汇报总结师",
+      "requiredSkills": ["boss-facing-business-summary-compressor"],
+      "optionalSkills": ["alibaba-operation-monthly-report-structure", "alibaba-7-14-30-launch-retrospective"],
+      "recommendedPlugins": ["documents", "presentations"]
+    },
+    {
+      "agentSlug": "account-strategist",
+      "sourcePath": "sales/sales-account-strategist.md",
+      "displayName": "外贸客户经营顾问",
+      "requiredSkills": ["boss-facing-business-summary-compressor", "alibaba-operation-monthly-report-structure"],
+      "optionalSkills": ["alibaba-7-14-30-launch-retrospective"],
+      "recommendedPlugins": ["okki-crm", "spreadsheets"]
+    }
+  ]
+}

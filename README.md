@@ -20,6 +20,17 @@ Born from a Reddit thread and months of iteration, **The Agency** is a growing c
 
 **Think of it as**: Assembling your dream team, except they're AI specialists who never sleep, never complain, and always deliver.
 
+## 📚 项目接手入口
+
+如果你是来接手本仓库当前阶段的工作，先看 [docs/README.md](docs/README.md)。
+
+那一页会先告诉你：
+
+- 当前做到哪一步了
+- Accio Work 的转换和安装边界是什么
+- 中文化分类文档放在哪里
+- 接下来应该先读哪些阶段文档
+
 ---
 
 ## ⚡ Quick Start
